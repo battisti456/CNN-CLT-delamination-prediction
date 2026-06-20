@@ -1,0 +1,41 @@
+Started, getting data formatted properly
+Decided to focus on two-class classification for now
+Dealing with class imbalance (weighting did not seem to work, oversampling worked)
+Dealing with model unable to learn (too much padding in original model)
+Changed to generating oversampled rather than using sampler
+--test5, model learns well, but does not generalize. Only overfits. Likely just memorizing the individual blocks, probably need to reduce model depth.
+--test6, doubled stride to 4, halved number of layers. No obvious difference
+--test7, two more layers down, still no difference
+--test8, removed first no downsample layer, still no difference
+--test8, removed another layer, added a stride of 10, taking longest to train but still no improvement in test accuracy
+--test10, tried dropout, took way longer not good fitting even on train
+--red2 increase kernel width, does not seem to help
+--red3 back to smaller kernels, now adding residuals, slows down leaning a bit, but might be helping test accuracy slightly
+--red4, manual loss weighing,1:1.2, got rid of initial jump, maybe helped long term results?
+--nvm new red 5, red 3 was executed incorrectly
+--red3 back to smaller kernels, now adding residuals, slows down leaning a bit, but might be helping test accuracy slightly, also reweighed
+--red5, messing around with parameters, longer train time
+--red6, add fft into forward, smooths out learning no improvement to test
+--red7, add a lr scheduler, smoothed out the learning a little bit?
+--red8 trying with weights
+--red9, even more weight, really messed up early learning with no long term changes.
+--blue1a, focused loss, promising, actually seems to improve accuracy, adding noise back in
+--blue1, noise did seem to improve test accuracy somewhat.
+--blue2, added in dropout
+--blue4, added higher starting lr, seems to be a bit better
+--blue5 fixed a data labeling bug, don't think it was actually affecting anything though
+--green1 added 5ply and 3ply data together
+--green2 added training data for number of layers, seems okay. Slightly better accuracy, Still basically random guessing.
+--green3 changed model to focus more on higher frequencies, no noticeable affect
+--green4 playing around with kernel size, no obvious difference
+--green5 
+--ice 1, pre-training
+--ice 2, slightly deeper model seems to work a tad better.
+--ice3 fixed bug in transform, now only training transfer once.
+--veil1, switched to resnet, overfit immediately,no learning
+--veil3, okay all fixed, same as accuracy before resnet, which is to say, nonexistent.
+
+to try:
+    - combine 3ply and 5ply data along with a geometry scalar marker to models
+    - add auto-fold combinations to: rescue incomplete folds, and to allow for testing all valid fold combinations (if desired)
+    - pre-training on related signals?
